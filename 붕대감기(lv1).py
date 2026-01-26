@@ -35,3 +35,30 @@ def solution(bandage, health, attacks):
     if dead == True:
         health = -1
     return health
+
+#위 함수를 dictionary comprehension으로 바꿔서 이중 for문을 해제함.
+def solution2(bandage, health, attacks):
+    #총 턴 횟수
+    dead = False
+    length = attacks[-1][0]
+    max_health = health
+    con_att = 0 #연공 변수
+    att_dict = {t:d for t, d in attacks}
+    
+    for i in range(length+1):
+        if i in att_dict:
+            
+            damage = att_dict[i]
+            con_att = 0
+            health -= damage
+            if health <= 0:
+                dead = True
+        else:
+            con_att += 1
+            health = min(health, health + bandage[1])
+            if con_att == bandage[0]:
+                health += bandage[2]
+                con_att = 0
+    if dead == True:
+        health = -1
+    return health
